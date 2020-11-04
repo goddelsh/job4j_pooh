@@ -34,6 +34,14 @@ public class PoohBrokerConcurrent<U, N, M> implements PoohBroker<U, N, M> {
     }
 
     @Override
+    public void unsubscribeToTopic(U user, N topicName) {
+        this.topics.computeIfPresent(topicName, (key, value) -> {
+            value.unsubscribeToTopic(user);
+            return value;
+        });
+    }
+
+    @Override
     public void addMessage(N queueName, M message) {
         this.messages.computeIfPresent(queueName, (key, value) -> {
             value.add(message);

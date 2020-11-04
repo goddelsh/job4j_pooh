@@ -21,7 +21,6 @@ public class PoohBrokerTest {
     @Before
     public void prepareBroker() {
         poohBroker = new PoohBrokerConcurrent<>();
-
     }
 
     @Test

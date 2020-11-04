@@ -6,4 +6,6 @@ public interface TopicSubscribers<U, M> {
     M getTopic(U user);
 
     void subscribeToTopic(U user);
+
+    void unsubscribeToTopic(U user);
 }
