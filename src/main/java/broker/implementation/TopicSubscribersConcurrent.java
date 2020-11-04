@@ -2,14 +2,14 @@ package broker.implementation;
 
 import broker.TopicSubscribers;
 
-public class TopicSubscribersConcurrent<U, N, M> implements TopicSubscribers<U, N, M> {
+public class TopicSubscribersConcurrent<U, M> implements TopicSubscribers<U, M> {
     @Override
-    public void addTopic(N topicName, M message) {
+    public void addTopic(M message) {
 
     }
 
     @Override
-    public M getTopic(U user, N topic) {
+    public M getTopic(U user) {
         return null;
     }
 }

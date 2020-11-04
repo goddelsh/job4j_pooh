@@ -1,7 +1,7 @@
 package broker;
 
-public interface TopicSubscribers<U, N, M> {
-    void addTopic(N topicName, M message);
+public interface TopicSubscribers<U, M> {
+    void addTopic(M message);
 
-    M getTopic(U user, N topic);
+    M getTopic(U user);
 }
