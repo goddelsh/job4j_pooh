@@ -22,21 +22,16 @@ public class PoohBrokerTest {
     public void prepareBroker() {
         poohBroker = new PoohBrokerConcurrent<>();
 
+    }
+
+    @Test
+    public void testGetMessage() {
         poohBroker.addMessage("tickets", "first ticket");
         poohBroker.addMessage("tickets", "second ticket");
         poohBroker.addMessage("tickets", "third  ticket");
         poohBroker.addMessage("orders", "first order");
         poohBroker.addMessage("orders", "second order");
 
-        poohBroker.addTopic("news", "politics");
-        poohBroker.addTopic("news", "economics");
-        poohBroker.addTopic("news", "social");
-        poohBroker.addTopic("talks", "celebrity");
-        poohBroker.addTopic("talks", "technology");
-    }
-
-    @Test
-    public void testGetMessage() {
         assertThat(poohBroker.getMessage("tickets"), is("first ticket"));
         assertThat(poohBroker.getMessage("tickets"), is("second ticket"));
 
@@ -65,6 +60,19 @@ public class PoohBrokerTest {
 
         List<User> users = List.of(firstUser, secondUser);
         ExecutorService pool = Executors.newFixedThreadPool(2);
+
+        poohBroker.subscribeToTopic(firstUser, "news");
+        poohBroker.subscribeToTopic(firstUser, "talks");
+
+        poohBroker.subscribeToTopic(secondUser, "news");
+        poohBroker.subscribeToTopic(secondUser, "talks");
+
+        poohBroker.addTopic("news", "politics");
+        poohBroker.addTopic("news", "economics");
+        poohBroker.addTopic("news", "social");
+        poohBroker.addTopic("talks", "celebrity");
+        poohBroker.addTopic("talks", "technology");
+
 
         for (User user : users) {
             pool.execute(() -> {

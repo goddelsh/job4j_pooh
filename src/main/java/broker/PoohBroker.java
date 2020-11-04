@@ -1,6 +1,9 @@
 package broker;
 
 public interface PoohBroker<U, N, M> {
+
+    void subscribeToTopic(U user, N topicName);
+
     void addMessage(N queueName, M message);
 
     M getMessage(N queueName);
