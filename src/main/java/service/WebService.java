@@ -27,6 +27,7 @@ public class WebService {
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         server.setExecutor(threadPoolExecutor);
         server.start();
+        System.out.println("Pooh started on " + port + " port");
     }
 
 }

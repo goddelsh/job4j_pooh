@@ -99,9 +99,9 @@ public class WebHandler implements HttpHandler {
 
     private String addMessage(HttpExchange exchange) {
         String result = "EROR";
-        Map<String, String> parseBody = this.readAndParseBody(exchange.getRequestBody());
-        if (parseBody != null) {
-            this.poohBroker.addTopic(parseBody.get("queue"), parseBody.get("text"));
+        String body = this.readBody(exchange.getRequestBody());
+        if (body != null) {
+            this.poohBroker.addMessage(this.getTopicFromURI(exchange.getRequestURI()), body);
             result = "OK";
         }
         return result;
@@ -139,13 +139,34 @@ public class WebHandler implements HttpHandler {
 
     private String addTopic(HttpExchange exchange) {
         String result = "EROR";
-        Map<String, String> parseBody = this.readAndParseBody(exchange.getRequestBody());
-        if (parseBody != null) {
-            this.poohBroker.addTopic(parseBody.get("topic"), parseBody.get("text"));
+        String body = this.readBody(exchange.getRequestBody());
+        if (body != null) {
+            this.poohBroker.addTopic(this.getTopicFromURI(exchange.getRequestURI()), body);
             result = "OK";
         }
         return result;
     }
+
+
+    private String readBody(InputStream requestBody) {
+        String result = new String();
+        try (BufferedReader streamReader = new BufferedReader(new InputStreamReader(requestBody, "utf-8"))) {
+            StringBuilder responseStrBuilder = new StringBuilder();
+            String inputStr;
+            while ((inputStr = streamReader.readLine()) != null) {
+                responseStrBuilder.append(inputStr);
+            }
+            result = responseStrBuilder.toString();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
     private Map<String, String> readAndParseBody(InputStream requestBody) {
         Map<String, String> result = null;
@@ -159,6 +180,8 @@ public class WebHandler implements HttpHandler {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
